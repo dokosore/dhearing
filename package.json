@@ -10,6 +10,7 @@
     "emulator": "firebase emulators:start --import=seed --export-on-exit"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.25.2",
     "@chakra-ui/next-js": "^2.2.0",
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.13.0",
@@ -20,7 +21,8 @@
     "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18",
-    "react-hook-form": "^7.52.1"
+    "react-hook-form": "^7.52.1",
+    "react-markdown": "^9.0.1"
   },
   "devDependencies": {
     "@types/node": "^20",

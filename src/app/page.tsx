@@ -9,7 +9,6 @@ import {
   Link,
   Button,
 } from "@chakra-ui/react";
-import { updateVersion } from "@/repository/version";
 
 interface BentoBoxProps {
   title: string;
@@ -92,17 +91,6 @@ const Dashboard = React.memo(() => {
           <BentoBox key={index} {...item} />
         ))}
       </SimpleGrid>
-      {/* <Button
-        onClick={async () => {
-          await updateVersion({
-            id: "1",
-            createdAt: 1,
-            updatedAt: 1,
-          });
-        }}
-      >
-        テスト
-      </Button> */}
     </Box>
   );
 });
