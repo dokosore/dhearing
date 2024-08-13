@@ -92,7 +92,7 @@ const Dashboard = React.memo(() => {
           <BentoBox key={index} {...item} />
         ))}
       </SimpleGrid>
-      <Button
+      {/* <Button
         onClick={async () => {
           await updateVersion({
             id: "1",
@@ -102,7 +102,7 @@ const Dashboard = React.memo(() => {
         }}
       >
         テスト
-      </Button>
+      </Button> */}
     </Box>
   );
 });
