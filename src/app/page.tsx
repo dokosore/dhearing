@@ -1,149 +1,64 @@
 "use client"
+import React, { useMemo } from 'react';
+import { Box, SimpleGrid, Heading, Text, VStack, Link } from '@chakra-ui/react';
 
-import React from 'react';
-import {
-  Box,
-  VStack,
-  Heading,
-  Text,
-  FormControl,
-  FormLabel,
-  Input,
-  Textarea,
-  Button,
-  useToast,
-  Progress,
-} from '@chakra-ui/react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-
-interface Question {
-  id: keyof FormData;
-  label: string;
-  type: 'input' | 'textarea';
-  isRequired: boolean;
+interface BentoBoxProps {
+  title: string;
+  emoji: string;
+  description: string;
+  href: string;
 }
 
-interface FormData {
-  projectName: string;
-  projectPurpose: string;
-  stakeholders: string;
-  projectScope: string;
-  userCharacteristics: string;
-  userNeeds: string;
-  functionalRequirements: string;
-  nonFunctionalRequirements: string;
-  techStack: string;
-  integrations: string;
-  timeline: string;
-  importantEvents: string;
-  risks: string;
-  budget: string;
-  communicationPlan: string;
-  additionalNotes: string;
-}
+const BentoBox = React.memo(({ title, emoji, description, href }: BentoBoxProps) => {
+  return (
+    <Link href={href} textDecoration="none" _hover={{ textDecoration: 'none' }}>
+      <Box
+        bg="white"
+        p={3}
+        borderRadius="md"
+        boxShadow="sm"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        h="full"
+        transition="all 0.3s"
+        _hover={{ transform: 'scale(1.05)', boxShadow: 'md' }}
+      >
+        <VStack spacing={2}>
+          <Text fontSize="2xl">{emoji}</Text>
+          <Heading size="sm" color="blue.600" textAlign="center">{title}</Heading>
+          <Text fontSize="xs" color="gray.600" textAlign="center" noOfLines={2}>{description}</Text>
+        </VStack>
+      </Box>
+    </Link>
+  );
+});
 
-const questions: Question[] = [
-  { id: 'projectName', label: 'プロジェクト名', type: 'input', isRequired: true },
-  { id: 'projectPurpose', label: 'プロジェクトの目的', type: 'textarea', isRequired: true },
-  { id: 'stakeholders', label: '主要な関係者', type: 'textarea', isRequired: true },
-  { id: 'projectScope', label: 'プロジェクトの範囲', type: 'textarea', isRequired: true },
-  { id: 'userCharacteristics', label: 'ユーザーの特徴', type: 'textarea', isRequired: true },
-  { id: 'userNeeds', label: 'ユーザーのニーズと期待', type: 'textarea', isRequired: true },
-  { id: 'functionalRequirements', label: '機能要件', type: 'textarea', isRequired: true },
-  { id: 'nonFunctionalRequirements', label: '非機能要件', type: 'textarea', isRequired: true },
-  { id: 'techStack', label: '使用する技術スタック', type: 'textarea', isRequired: true },
-  { id: 'integrations', label: 'インテグレーション', type: 'textarea', isRequired: false },
-  { id: 'timeline', label: 'プロジェクトのタイムライン', type: 'textarea', isRequired: true },
-  { id: 'importantEvents', label: '重要なイベント', type: 'textarea', isRequired: false },
-  { id: 'risks', label: '想定されるリスクと対策', type: 'textarea', isRequired: true },
-  { id: 'budget', label: 'プロジェクト予算とコストブレイクダウン', type: 'textarea', isRequired: true },
-  { id: 'communicationPlan', label: 'コミュニケーション計画', type: 'textarea', isRequired: true },
-  { id: 'additionalNotes', label: '追加のメモ', type: 'textarea', isRequired: false },
-];
 
-export default function Home() {
-  const { register, handleSubmit, formState: { errors }, getValues, setValue } = useForm<FormData>({
-    defaultValues: {  // Initialize all field values to empty string
-      projectName: '',
-      projectPurpose: '',
-      stakeholders: '',
-      projectScope: '',
-      userCharacteristics: '',
-      userNeeds: '',
-      functionalRequirements: '',
-      nonFunctionalRequirements: '',
-      techStack: '',
-      integrations: '',
-      timeline: '',
-      importantEvents: '',
-      risks: '',
-      budget: '',
-      communicationPlan: '',
-      additionalNotes: '',
-    }
-  });
-
-  const [currentStep, setCurrentStep] = React.useState(1);
-  const toast = useToast();
-
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log(data);
-    toast({
-      title: "仕様書送信完了",
-      description: "プロジェクト仕様書が正常に送信されました。",
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-    });
-  };
-
-  const nextStep = () => {
-    if (currentStep < questions.length) {
-      setCurrentStep(currentStep + 1);
-    }
-  };
-
-  const prevStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-    }
-  };
-
-  const renderQuestion = (question: Question) => {
-    return (
-      <FormControl key={question.id} isRequired={question.isRequired} isInvalid={!!errors[question.id]}>
-        <FormLabel>{question.label}</FormLabel>
-        {question.type === 'input' ? (
-          <Input {...register(question.id)} />
-        ) : (
-          <Textarea {...register(question.id)} />
-        )}
-      </FormControl>
-    );
-  };
+const Dashboard = React.memo(() => {
+  const bentoItems = useMemo(() => [
+    { title: "仕様書作成", emoji: "📄", description: "新しいプロジェクトの仕様書を作成", href: "/projects/new" },
+    { title: "プロジェクト一覧", emoji: "📋", description: "すべてのプロジェクトを表示", href: "/projects" },
+  ], []);
 
   return (
-    <Box maxWidth="800px" margin="auto" padding={8}>
-      <VStack spacing={8} as="form" onSubmit={handleSubmit(onSubmit)}>
-        <Heading>プロジェクト仕様書</Heading>
-        <Text>ステップ {currentStep} / {questions.length}</Text>
-        <Progress value={(currentStep / questions.length) * 100} width="100%" />
-
-        {renderQuestion(questions[currentStep - 1])}
-
-        <Box width="100%" display="flex" justifyContent="space-between">
-          <Button onClick={prevStep} isDisabled={currentStep === 1}>
-            前へ
-          </Button>
-          {currentStep < questions.length ? (
-            <Button onClick={nextStep}>次へ</Button>
-          ) : (
-            <Button type="submit" colorScheme="blue">
-              送信
-            </Button>
-          )}
-        </Box>
-      </VStack>
+    <Box p={4} minHeight="100vh">
+      <Heading mb={4} textAlign="center" color="blue.800" size="lg">ダッシュボード</Heading>
+      <SimpleGrid
+        columns={{ base: 1, sm: 2, md: 3, lg: 4, xl: 6 }}
+        spacing={4}
+        mx={{ base: 4, md: 8, lg: 16 }}
+      >
+        {bentoItems.map((item, index) => (
+          <BentoBox key={index} {...item} />
+        ))}
+      </SimpleGrid>
     </Box>
   );
-}
+});
+
+BentoBox.displayName = 'BentoBox';
+Dashboard.displayName = 'Dashboard';
+
+export default Dashboard;
