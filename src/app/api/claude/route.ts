@@ -16,7 +16,7 @@ export async function POST(
     apiKey: process.env.ANTHROPIC_API_SECRET,
   });
 
-  const { question } = await req.json();
+  const { question }: ClaudeApiRequest = await req.json();
 
   const msg = await anthropic.messages.create({
     model: "claude-3-haiku-20240307",
