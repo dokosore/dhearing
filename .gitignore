@@ -34,3 +34,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# seed
+/seed/*
+!/seed/.keep
+
+# firebase
+firebase-debug.log
+firestore-debug.log
+ui-debug.log

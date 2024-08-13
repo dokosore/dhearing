@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "emulator": "firebase emulators:start --import=seed --export-on-exit"
   },
   "dependencies": {
     "@chakra-ui/next-js": "^2.2.0",
