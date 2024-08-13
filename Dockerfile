@@ -1,6 +1,8 @@
 # Dockerfile
 FROM node:18-alpine
 
+RUN apk add file
+
 # アプリケーションディレクトリを作成
 WORKDIR /app
 
